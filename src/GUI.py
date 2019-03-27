@@ -9,10 +9,7 @@ from creature_graphitem import Creature_graphitem
 
 
 class Gamewindow(QtWidgets.QMainWindow):
-    '''
-    The class GUI handles the drawing of a RobotWorld and allows user to
-    interact with it.
-    '''
+    
     def __init__(self, game, tile_size):
         super().__init__()
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
@@ -83,10 +80,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.horizontal.addWidget(self.next_turn_btn)'''
 
     def update_objects(self):
-        '''
-        Iterates over all robot items and updates their position to match
-        their physical representations in the robot world.
-        '''
+        
         for item in self.get_gameobjects():
             item.updateAll()
 

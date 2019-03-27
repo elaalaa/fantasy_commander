@@ -9,13 +9,7 @@ from creature import *
 
 
 def main():
-    '''
-    Creates a RobotWorld, adds robots and launches the Graphical User Interface.
-
-    Use this for testing your code.
-
-    You can modify this however you like.
-    '''
+    
     test_map = Map(10, 8)
     '''wall1_coordinates = Coordinates(2, 4)
     test_world.add_wall(wall1_coordinates)

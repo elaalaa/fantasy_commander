@@ -12,23 +12,17 @@ class Tile():
 
 
     def get_creature(self):
-        '''
-        Returns the robot in the square or None if there is no robot in the square: Robot
-        '''
+        
         return self.creature
 
 
     def get_type(self):
-        '''
-        Returns a boolean value stating whether there is a wall in the square or not: boolean
-        '''
+        
         return self.type
 
 
     def is_empty(self):
-        '''
-        Returns a boolean value stating whether the square is empty (A square is empty if it does not contain a wall or a robot) or not: boolean
-        '''
+        
         if self.type == Tile.FREE:
             if self.creature == None:
                 return True

@@ -3,16 +3,8 @@ from PyQt5.Qt import QPointF
 from PyQt5.QtGui import QColor, QBrush
 
 class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
-    '''
-    The class RobotGraphicsItem extends QGraphicsPolygonItem to link it together to the physical
-    representation of a Robot. The QGraphicsPolygonItem handles the drawing, while the
-    Robot knows its own location and status.
+   
 
-    NOTE: unfortunately the PyQt5 uses different naming conventions than the rest
-    of this project. We are also overriding the mousePressEvent()-method, whose
-    name cannot be changed. Therefore, this class has a different style of naming the
-    method names. (for example: updatePosition() vs update_position())
-    '''
     def __init__(self, creature, tile_size):
         # Call init of the parent object
         super(Creature_graphitem, self).__init__()
@@ -26,13 +18,7 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         self.updateAll()
 
     def constructTriangleVertices(self):
-        '''
-        This method sets the shape of this item into a triangle.
-
-        The QGraphicsPolygonItem can be in the shape of any polygon.
-        We use triangles to represent robots, as it makes it easy to
-        show the current facing of the robot.
-        '''
+        
         # Create a new QPolygon object
         triangle = QtGui.QPolygonF()
 
@@ -50,29 +36,12 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         self.setTransformOriginPoint(self.tile_size/2, self.tile_size/2)
 
     def updateAll(self):
-        '''
-        Updates the visual representation to correctly resemble the current
-        location, direction and status of the parent robot.
-        '''
+        
         self.updatePosition()
         #self.updateColor()
 
     def updatePosition(self):
-        '''
-        Implement me!
-
-        Update the coordinates of this item to match the attached robot.
-        Remember to take in to account the size of the squares.
-
-        A robot in the first (0, 0) square should be drawn at (0, 0).
-
-        See: For setting the position of this GraphicsItem, see
-        QGraphicsPolygonItem at http://doc.qt.io/qt-5/qgraphicspolygonitem.html
-        and its parent class QGraphicsItem at http://doc.qt.io/qt-5/qgraphicsitem.html
-
-        For getting the location of the parent robot, look at the Robot-class
-        in robot.py.
-        '''
+        
         self.setPos(QPointF(self.creature.get_location().get_x()*self.tile_size, self.creature.get_location().get_y()*self.tile_size))
         #pass # Replace me with correct implementation!
         
