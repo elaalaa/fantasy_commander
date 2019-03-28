@@ -4,25 +4,37 @@ class Map():
     
 
 
-    def __init__ (self, width, height):
+    def __init__ (self, filename):
         
-        self.tiles = [None] * width
-        for x in range(self.get_width()):      # stepper
-            self.tiles[x] = [None] * height
-            for y in range(self.get_height()):    # stepper
-                self.tiles[x][y] = Tile()    # fixed value
-        self.creatures = []                        # container
-        self.turn = 0                         # kinda like stepper (but not quite) index to robots list
+        with open(filename, 'r') as file:
+            firstline = file.readline()
+            # files in format that first line contains dimensions
+            self.width = int(firstline.split()[0])
+            self.height = int(firstline.split()[1])
+        
+            # initialises array
+            self.tiles = [None] * self.width
+            for x in range(self.get_width()):
+                self.tiles[x] = [None] * self.height
+                    
+            # places tiles according to file
+            for y in range(self.get_height()):
+                line = file.readline()
+                for x in range(self.get_width()):
+                    self.tiles[x][y] = Tile(int(line[x]))
+        self.creatures = []
+        self.turn = 0
+
 
 
     def get_width(self):
         
-        return len(self.tiles)
+        return self.width
 
 
     def get_height(self):
         
-        return len(self.tiles[0])
+        return self.height
 
 
     def add_creature(self, creature, location):
