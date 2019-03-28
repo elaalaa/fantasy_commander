@@ -1,4 +1,5 @@
 class Location():
+    # location on map
     
     def __init__(self, x, y):
         

@@ -48,7 +48,7 @@ class Map():
         return len(self.creatures)
 
 
-    def get_robot(self, turn_number):
+    def get_creature(self, turn_number):
         
         if 0 <= turn_number < self.get_number_of_creatures():
             return self.creatures[turn_number]
@@ -76,7 +76,7 @@ class Map():
     def next_full_turn(self):
         
         for count in range(self.get_number_of_creatures()):      # stepper
-            self.next_robot_turn()
+            self.next_creature_turn()
 
 
     def contains(self, location):
@@ -87,6 +87,6 @@ class Map():
 
 
 
-    def get_creatures(self):
+    def get_creatures(self): # tää ehka playerille?
         
         return self.creatures[:]

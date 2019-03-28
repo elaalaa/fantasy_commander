@@ -1,15 +1,21 @@
 
 
 class Creature():
-    
+    TANK = 0
+    MAGE = 1
+    NINJA = 2
+    SNIPER = 3
 
-    def __init__(self, name):
+    def __init__(self, name, type, side):
         
         self.set_name(name)
-        self.map = None        # fixed value
-        self.location = None     # most-recent holder
-        self.destroyed = False   # flag
-        self.brain = None       #brain varmaan mika tyyppi se on? tai miten liikkuu?
+        self.map = None
+        self.location = None     # most-recent location
+        self.destroyed = False   # flag if character is destroyed
+        self.set_type(type)      # creature type, defines movement and attack
+        self.player = side
+        self.moving = False
+        self.attacking = False
 
 
     def set_name(self, name):
@@ -23,16 +29,28 @@ class Creature():
     def get_name(self):
         
         return self.name
-
-
-    def set_brain(self, new_brain):
+    
+    def is_moving(self):
+        return self.moving
+    
+    def set_moving(self, bool):
+        self.moving = bool
         
-        self.brain = new_brain # tata ei valttamatta tarvi?
+    
+    def is_attacking(self):
+        return self.attacking
+    
+    def set_attacking(self, bool):
+        self.attacking = True
 
-
-    def get_brain(self):
+    def set_type(self, type):
         
-        return self.brain # taa olis tyyppi
+        self.type = type # tata ei valttamatta tarvi?
+
+
+    def get_type(self):
+        
+        return self.type # taa olis tyyppi
 
 
     def get_map(self):
@@ -74,7 +92,7 @@ class Creature():
             return True
 
 
-    def move(self, direction): # ei tarvita jos tehdaan mousepressilla?
+    '''def move(self, direction): # ei tarvita jos tehdaan mousepressilla?
         
         if self.is_broken():
             return False
@@ -93,18 +111,18 @@ class Creature():
             return False
         else:   # collided with wall
             self.destroy()
-            return False
+            return False'''
 
 
-    def move_forward(self): # ei tarvita
+    '''def move_forward(self): # ei tarvita
         
         return self.move(self.get_facing())
 
 
-    def take_turn(self): # ehka tarvitaan, pit‰‰ kattoo rakenne
+    def take_turn(self): # ehka tarvitaan, pitaa kattoo rakenne
         
         if not self.is_stuck() and not self.is_broken():
-            self.brain.move_body()
+            self.brain.move_body()'''
 
     def __str__(self):
         return self.get_name() + ' at location ' + str(self.get_location())

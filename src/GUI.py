@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.Qt import QGraphicsRectItem
+from PyQt5.Qt import QGraphicsRectItem, QGraphicsPixmapItem, QPixmap
 from PyQt5.QtGui import QColor, QBrush
 
 from location import Location
 from tile import Tile
 from creature_graphitem import Creature_graphitem
+from tile_graphitem import Tile_graphitem
 
 
 
@@ -36,23 +37,17 @@ class Gamewindow(QtWidgets.QMainWindow):
 
     def add_tile_graphitems(self):
         
-        rock = QBrush(QColor(20,20,20))
-        free = QBrush(QColor(211,211,211))
-        tree = QBrush(QColor(34,139,34))
-        
         for x in range(0, self.game.get_width()):
             for y in range(0, self.game.get_height()):
-                if self.game.get_tile(Location(x, y)).get_type() == Tile.FREE:
-                    item = QGraphicsRectItem(x * self.tile_size, y * self.tile_size, self.tile_size, self.tile_size)
-                    item.setBrush(free)
+                tile = self.game.get_tile(Location(x, y))
+                if tile.get_type() == Tile.FREE:
+                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
                     self.scene.addItem(item)
-                elif self.game.get_tile(Location(x, y)).get_type() == Tile.TREE:
-                    item = QGraphicsRectItem(x * self.tile_size, y * self.tile_size, self.tile_size, self.tile_size)
-                    item.setBrush(tree)
+                elif tile.get_type() == Tile.TREE:
+                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
                     self.scene.addItem(item)
                 else:
-                    item = QGraphicsRectItem(x * self.tile_size, y * self.tile_size, self.tile_size, self.tile_size)
-                    item.setBrush(rock)
+                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
                     self.scene.addItem(item)
 
     def get_gameobjects(self):
@@ -61,10 +56,9 @@ class Gamewindow(QtWidgets.QMainWindow):
 
     def add_creature_graphitems(self):
         
-        # Calls your code in gui_exercise.py
         for creature in self.game.get_creatures():
             if creature not in self.get_gameobjects():
-                item = Creature_graphitem(creature, self.tile_size)
+                item = Creature_graphitem(creature, self.tile_size, self.creature_click_callback)
                 self.scene.addItem(item)
                 self.gameobjects.append(item)
 
@@ -101,3 +95,11 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.view.adjustSize()
         self.view.show()
         self.horizontal.addWidget(self.view)
+        
+    def tile_click_callback(self, event, location):
+        # do stuff
+        pass
+    
+    def creature_click_callback(self, creature):
+        # do stuff
+        pass

@@ -6,7 +6,19 @@ from GUI import Gamewindow
 from map import * # use tile somewhere?
 from location import *
 from creature import *
+from player import *
 
+class Game():
+    
+    def __init__(self, human, ai, map):
+        self.human = human # human goes always first
+        self.ai = ai
+        self.map = map
+        
+    def full_turn(self):
+        self.human.play_turn()
+        self.ai.play_turn()
+        
 
 def main():
     
@@ -16,30 +28,21 @@ def main():
     wall2_coordinates = Coordinates(0, 5)
     test_world.add_wall(wall2_coordinates)'''
 
-    nose_location = Location(9, 7)
-    nose_body = Creature('Nose')
-    #nose_brain = Nosebot(nose_body)
-    #nose_body.set_brain(nose_brain)
-    test_map.add_creature(nose_body, nose_location)
+    tank_location = Location(0, 0)
+    tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN)
+    test_map.add_creature(tank_body, tank_location)
 
-    spin_location = Location(2, 3)
-    spin_body = Creature('Spin')
-    #spin_brain = Spinbot(spin_body)
-    #spin_body.set_brain(spin_brain)
-    test_map.add_creature(spin_body, spin_location)
+    mage_location = Location(0, 1)
+    mage_body = Creature('Mage1', Creature.MAGE, Player.HUMAN)
+    test_map.add_creature(mage_body, mage_location)
 
-    love_location = Location(8, 5)
-    love_body = Creature('Love')
-    #love_brain = Lovebot(love_body, spin_body)
-    #love_body.set_brain(love_brain)
-    test_map.add_creature(love_body, love_location)
+    ninja_location = Location(0, 2)
+    ninja_body = Creature('Ninja1', Creature.NINJA, Player.HUMAN)
+    test_map.add_creature(ninja_body, ninja_location)
 
-    drunk_location = Location(5, 5)
-    drunk_body = Creature('Drunk')
-    #seed = 2
-    #drunk_brain = Drunkbot(drunk_body, seed)
-    #drunk_body.set_brain(drunk_brain)
-    test_map.add_creature(drunk_body, drunk_location)
+    sniper_location = Location(0, 3)
+    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.HUMAN)
+    test_map.add_creature(sniper_body, sniper_location)
 
     # Every Qt application must have one instance of QApplication.
     global app # Use global to prevent crashing on exit

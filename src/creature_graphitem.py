@@ -1,11 +1,12 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.Qt import QPointF
+from PyQt5.Qt import QPointF, QPixmap, QGraphicsPixmapItem
 from PyQt5.QtGui import QColor, QBrush
+from creature import Creature
 
 class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
    
 
-    def __init__(self, creature, tile_size):
+    def __init__(self, creature, tile_size, callback):
         # Call init of the parent object
         super(Creature_graphitem, self).__init__()
 
@@ -14,11 +15,16 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         self.tile_size = tile_size
         brush = QtGui.QBrush(1) # 1 for even fill
         self.setBrush(brush)
-        self.constructTriangleVertices()
+        self.set_sprite()
         self.updateAll()
+        self.callback = callback
 
-    def constructTriangleVertices(self):
+    def set_sprite(self):
         
+        tank = QBrush(QColor(255,0,0))
+        mage = QBrush(QColor(168,16,255))
+        ninja = QBrush(QColor(0,102,255))
+        sniper = QBrush(QColor(247,255,0))
         # Create a new QPolygon object
         triangle = QtGui.QPolygonF()
 
@@ -34,6 +40,21 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         # Set the origin of transformations to the center of the triangle.
         # This makes it easier to rotate this Item.
         self.setTransformOriginPoint(self.tile_size/2, self.tile_size/2)
+        if self.creature.type == Creature.TANK:
+            self.setBrush(tank)
+            #self.setPixmap(QPixmap('tank.png').scaled(self.tile_size, self.tile_size))
+        elif self.creature.type == Creature.MAGE:
+            self.setBrush(mage)
+            #self.setPixmap(QPixmap('mage.png').scaled(self.tile_size, self.tile_size))
+        elif self.creature.type == Creature.NINJA:
+            self.setBrush(ninja)
+            #self.setPixmap(QPixmap('ninja.png').scaled(self.tile_size, self.tile_size))
+        elif self.creature.type == Creature.SNIPER:
+            self.setBrush(sniper)
+            #self.setPixmap(QPixmap('sniper.png').scaled(self.tile_size, self.tile_size))
+        #self.setShapeMode(QGraphicsPixmapItem.BoundingRectShape)
+        #self.setOffset(0,0)
+        
 
     def updateAll(self):
         
@@ -57,9 +78,9 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         else:
             self.setBrush(QBrush(QColor(0,255,0)))'''
 
-    '''def mousePressEvent(self, *args, **kwargs): #jos on olion vuoro, laita aktiiviseksi
+    def mousePressEvent(self, event): # set creature active if it's players turn
+        self.creature.set_moving(self.creature.player.is_moving())
+        self.creature.set_attacking(self.creature.player.is_attacking())
         
-        #pass # Replace me with correct implementation!
-        if self.robot.is_broken():
-            self.robot.fix()''' # tiilelle oma press event, jos joku olio on aktiivinen, siirrä olio kyseiseen tiileen
+            
         
