@@ -26,8 +26,6 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.add_tile_graphitems()
         self.add_creature_graphitems()
         self.update_objects()
-        
-        #self.scene = scene
 
         # Set a timer to call the update function periodically
         self.timer = QtCore.QTimer()

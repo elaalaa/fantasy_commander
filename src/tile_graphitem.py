@@ -14,20 +14,15 @@ class Tile_graphitem(QGraphicsPixmapItem):
         super(Tile_graphitem, self).__init__()
         self.x = x
         self.y = y
-        #x * tile_size, y * tile_size, tile_size, tile_size
-        # Do other stuff
+        
         self.callback = callback
         self.tile = tile
         self.tile_size = tile_size
-        #brush = QtGui.QBrush(1) # 1 for even fill
-        #self.setBrush(brush)
         self.set_sprite()
-        #self.updateAll()
+        
         
     def set_sprite(self):
         if self.tile.get_type() == Tile.FREE:
-            #self.setBrush(Tile_graphitem.free)
-            #item = QGraphicsPixmapItem(QPixmap('free_tile.png').scaled(self.tile_size, self.tile_size))
             self.setPixmap(QPixmap('graphics/free_tile.png').scaled(self.tile_size, self.tile_size))
             self.setOffset(self.x * self.tile_size, self.y * self.tile_size)
         elif self.tile.get_type() == Tile.TREE:

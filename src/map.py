@@ -84,7 +84,6 @@ class Map():
             current.take_turn()
 
 
-
     def next_full_turn(self):
         
         for count in range(self.get_number_of_creatures()):      # stepper
@@ -96,7 +95,6 @@ class Map():
         x_coordinate = location.get_x()
         y_coordinate = location.get_y()
         return 0 <= x_coordinate < self.get_width() and 0 <= y_coordinate < self.get_height()
-
 
 
     def get_creatures(self): # tää ehka playerille?

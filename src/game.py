@@ -25,15 +25,7 @@ class Game():
 
 def main():
     
-    test_map = Map('maps/map1.txt')
-    '''wall1_coordinates = Coordinates(2, 4)
-    test_world.add_wall(wall1_coordinates)
-    wall2_coordinates = Coordinates(0, 5)
-    test_world.add_wall(wall2_coordinates)'''
-    #test_map.get_tile(Location(5, 3)).set_type(Tile.TREE)
-    #test_map.get_tile(Location(5, 2)).set_type(Tile.TREE)
-    #test_map.get_tile(Location(5, 7)).set_type(Tile.ROCK)
-    #test_map.get_tile(Location(7, 4)).set_type(Tile.ROCK)
+    test_map = Map('maps/map2.txt')
 
     tank_location = Location(0, 0)
     tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN, tank_location)
@@ -49,6 +41,30 @@ def main():
 
     sniper_location = Location(0, 3)
     sniper_body = Creature('Sniper1', Creature.SNIPER, Player.HUMAN, sniper_location)
+    test_map.add_creature(sniper_body, sniper_location)
+    
+    tank_location = Location(0, 4)
+    tank_body = Creature('Tank2', Creature.TANK, Player.HUMAN, tank_location)
+    test_map.add_creature(tank_body, tank_location)
+
+    mage_location = Location(0, 5)
+    mage_body = Creature('Mage2', Creature.MAGE, Player.HUMAN, mage_location)
+    test_map.add_creature(mage_body, mage_location)
+
+    ninja_location = Location(0, 6)
+    ninja_body = Creature('Ninja2', Creature.NINJA, Player.HUMAN, ninja_location)
+    test_map.add_creature(ninja_body, ninja_location)
+
+    sniper_location = Location(0, 7)
+    sniper_body = Creature('Sniper2', Creature.SNIPER, Player.HUMAN, sniper_location)
+    test_map.add_creature(sniper_body, sniper_location)
+    
+    sniper_location = Location(7, 0)
+    sniper_body = Creature('Sniper3', Creature.SNIPER, Player.AI, sniper_location)
+    test_map.add_creature(sniper_body, sniper_location)
+    
+    sniper_location = Location(9, 7)
+    sniper_body = Creature('Sniper4', Creature.SNIPER, Player.AI, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
 
     # Every Qt application must have one instance of QApplication.

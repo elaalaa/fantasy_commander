@@ -57,12 +57,12 @@ class Creature():
 
     def set_type(self, type):
         
-        self.type = type # tata ei valttamatta tarvi?
+        self.type = type
 
 
     def get_type(self):
         
-        return self.type # taa olis tyyppi
+        return self.type
 
 
     def get_map(self):
@@ -126,12 +126,8 @@ class Creature():
             return False'''
 
 
-    '''def move_forward(self): # ei tarvita
-        
-        return self.move(self.get_facing())
 
-
-    def take_turn(self): # ehka tarvitaan, pitaa kattoo rakenne
+    '''def take_turn(self): # ehka tarvitaan, pitaa kattoo rakenne
         
         if not self.is_stuck() and not self.is_broken():
             self.brain.move_body()'''
