@@ -3,7 +3,7 @@ from PyQt5.Qt import QPointF, QPixmap, QGraphicsPixmapItem
 from PyQt5.QtGui import QColor, QBrush
 from creature import Creature
 
-class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
+class Creature_graphitem(QGraphicsPixmapItem):
    
 
     def __init__(self, creature, tile_size, callback):
@@ -13,15 +13,15 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         # Do other stuff
         self.creature = creature
         self.tile_size = tile_size
-        brush = QtGui.QBrush(1) # 1 for even fill
-        self.setBrush(brush)
+        #brush = QtGui.QBrush(1) # 1 for even fill
+        #self.setBrush(brush)
         self.set_sprite()
-        self.updateAll()
+        #self.updateAll()
         self.callback = callback
 
     def set_sprite(self):
         
-        tank = QBrush(QColor(255,0,0))
+        '''tank = QBrush(QColor(255,0,0))
         mage = QBrush(QColor(168,16,255))
         ninja = QBrush(QColor(0,102,255))
         sniper = QBrush(QColor(247,255,0))
@@ -35,25 +35,25 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
         triangle.append(QtCore.QPointF(self.tile_size/2, 0)) # Tip
 
         # Set this newly created polygon as this Item's polygon.
-        self.setPolygon(triangle)
+        self.setPolygon(triangle)'''
 
         # Set the origin of transformations to the center of the triangle.
         # This makes it easier to rotate this Item.
-        self.setTransformOriginPoint(self.tile_size/2, self.tile_size/2)
+        #self.setTransformOriginPoint(self.tile_size/2, self.tile_size/2)
         if self.creature.type == Creature.TANK:
-            self.setBrush(tank)
-            #self.setPixmap(QPixmap('tank.png').scaled(self.tile_size, self.tile_size))
+            #self.setBrush(tank)
+            self.setPixmap(QPixmap('graphics/tank.gif').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.MAGE:
-            self.setBrush(mage)
-            #self.setPixmap(QPixmap('mage.png').scaled(self.tile_size, self.tile_size))
+            #self.setBrush(mage)
+            self.setPixmap(QPixmap('graphics/mage.gif').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.NINJA:
-            self.setBrush(ninja)
-            #self.setPixmap(QPixmap('ninja.png').scaled(self.tile_size, self.tile_size))
+            #self.setBrush(ninja)
+            self.setPixmap(QPixmap('graphics/ninja.gif').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.SNIPER:
-            self.setBrush(sniper)
-            #self.setPixmap(QPixmap('sniper.png').scaled(self.tile_size, self.tile_size))
+            #self.setBrush(sniper)
+            self.setPixmap(QPixmap('graphics/sniper.gif').scaled(self.tile_size, self.tile_size))
         #self.setShapeMode(QGraphicsPixmapItem.BoundingRectShape)
-        #self.setOffset(0,0)
+        self.setOffset(self.creature.get_location().get_x() , self.creature.get_location().get_y())
         
 
     def updateAll(self):
@@ -63,7 +63,7 @@ class Creature_graphitem(QtWidgets.QGraphicsPolygonItem):
 
     def updatePosition(self):
         
-        self.setPos(QPointF(self.creature.get_location().get_x()*self.tile_size, self.creature.get_location().get_y()*self.tile_size))
+        self.setPos(QPointF(self.creature.get_location().get_x()*self.tile_size, (self.creature.get_location().get_y())*self.tile_size))
         #pass # Replace me with correct implementation!
         
 

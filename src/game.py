@@ -29,19 +29,19 @@ def main():
     test_world.add_wall(wall2_coordinates)'''
 
     tank_location = Location(0, 0)
-    tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN)
+    tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN, tank_location)
     test_map.add_creature(tank_body, tank_location)
 
     mage_location = Location(0, 1)
-    mage_body = Creature('Mage1', Creature.MAGE, Player.HUMAN)
+    mage_body = Creature('Mage1', Creature.MAGE, Player.HUMAN, mage_location)
     test_map.add_creature(mage_body, mage_location)
 
     ninja_location = Location(0, 2)
-    ninja_body = Creature('Ninja1', Creature.NINJA, Player.HUMAN)
+    ninja_body = Creature('Ninja1', Creature.NINJA, Player.HUMAN, ninja_location)
     test_map.add_creature(ninja_body, ninja_location)
 
     sniper_location = Location(0, 3)
-    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.HUMAN)
+    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.HUMAN, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
 
     # Every Qt application must have one instance of QApplication.

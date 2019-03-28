@@ -6,11 +6,11 @@ class Creature():
     NINJA = 2
     SNIPER = 3
 
-    def __init__(self, name, type, side):
+    def __init__(self, name, type, side, location):
         
         self.set_name(name)
         self.map = None
-        self.location = None     # most-recent location
+        self.location = location     # most-recent location
         self.destroyed = False   # flag if character is destroyed
         self.set_type(type)      # creature type, defines movement and attack
         self.player = side
