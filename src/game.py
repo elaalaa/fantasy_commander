@@ -8,6 +8,8 @@ from location import *
 from creature import *
 from player import *
 
+# Qtextbrowser
+
 class Game():
     
     def __init__(self, human, ai, map):
@@ -27,6 +29,10 @@ def main():
     test_world.add_wall(wall1_coordinates)
     wall2_coordinates = Coordinates(0, 5)
     test_world.add_wall(wall2_coordinates)'''
+    test_map.get_tile(Location(5, 3)).set_type(Tile.TREE)
+    test_map.get_tile(Location(5, 2)).set_type(Tile.TREE)
+    test_map.get_tile(Location(5, 7)).set_type(Tile.ROCK)
+    test_map.get_tile(Location(7, 4)).set_type(Tile.ROCK)
 
     tank_location = Location(0, 0)
     tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN, tank_location)

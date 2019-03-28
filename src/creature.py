@@ -16,12 +16,24 @@ class Creature():
         self.player = side
         self.moving = False
         self.attacking = False
+        self.set_hp()
 
-
+    
+    def set_hp(self):
+        if self.type == Creature.TANK:
+            self.hp = 30
+        elif self.type == Creature.MAGE:
+            self.hp = 10
+        elif self.type == Creature.NINJA:
+            self.hp = 20
+        elif self.type == Creature.SNIPER:
+            self.hp = 10
+        
+    
     def set_name(self, name):
         
         if not name:
-            self.name = "Incognito"   # most-recent holder
+            self.name = "Incognito"
         else:
             self.name = name
 
@@ -41,7 +53,7 @@ class Creature():
         return self.attacking
     
     def set_attacking(self, bool):
-        self.attacking = True
+        self.attacking = bool
 
     def set_type(self, type):
         

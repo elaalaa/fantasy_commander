@@ -10,7 +10,9 @@ class Tile():
         self.type = tile_type  # flag (one-way currently, since walls can not be removed)
 
 
-
+    def set_type(self, type):
+        self.type = type
+        
     def get_creature(self):
         
         return self.creature
