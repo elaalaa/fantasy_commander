@@ -28,6 +28,9 @@ class Creature():
             self.hp = 20
         elif self.type == Creature.SNIPER:
             self.hp = 10
+            
+    def get_hp(self):
+        return self.hp
         
     
     def set_name(self, name):

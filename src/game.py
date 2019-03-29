@@ -59,13 +59,39 @@ def main():
     sniper_body = Creature('Sniper2', Creature.SNIPER, Player.HUMAN, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
     
-    sniper_location = Location(7, 0)
-    sniper_body = Creature('Sniper3', Creature.SNIPER, Player.AI, sniper_location)
+    tank_location = Location(13, 0)
+    tank_body = Creature('Tank1', Creature.TANK, Player.AI, tank_location)
+    test_map.add_creature(tank_body, tank_location)
+
+    mage_location = Location(13, 1)
+    mage_body = Creature('Mage1', Creature.MAGE, Player.AI, mage_location)
+    test_map.add_creature(mage_body, mage_location)
+
+    ninja_location = Location(13, 2)
+    ninja_body = Creature('Ninja1', Creature.NINJA, Player.AI, ninja_location)
+    test_map.add_creature(ninja_body, ninja_location)
+
+    sniper_location = Location(13, 3)
+    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.AI, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
     
-    sniper_location = Location(9, 7)
-    sniper_body = Creature('Sniper4', Creature.SNIPER, Player.AI, sniper_location)
+    tank_location = Location(13, 4)
+    tank_body = Creature('Tank2', Creature.TANK, Player.AI, tank_location)
+    test_map.add_creature(tank_body, tank_location)
+
+    mage_location = Location(13, 5)
+    mage_body = Creature('Mage2', Creature.MAGE, Player.AI, mage_location)
+    test_map.add_creature(mage_body, mage_location)
+
+    ninja_location = Location(13, 6)
+    ninja_body = Creature('Ninja2', Creature.NINJA, Player.AI, ninja_location)
+    test_map.add_creature(ninja_body, ninja_location)
+
+    sniper_location = Location(13, 7)
+    sniper_body = Creature('Sniper2', Creature.SNIPER, Player.AI, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
+    
+    
 
     # Every Qt application must have one instance of QApplication.
     global app # Use global to prevent crashing on exit
