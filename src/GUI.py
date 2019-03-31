@@ -71,10 +71,14 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.next_turn_btn.clicked.connect(self.world.next_full_turn)
         self.horizontal.addWidget(self.next_turn_btn)'''
 
-    def update_objects(self):
+    def update_objects(self): # update alive characters and remove dead
         
         for item in self.get_gameobjects():
-            item.updateAll()
+            if item.creature.is_dead():
+                self.gameobjects.remove(item)
+                self.scene.removeItem(item)
+            else:
+                item.updateAll()
 
     def init_window(self):
         '''

@@ -13,8 +13,7 @@ class Creature_graphitem(QGraphicsPixmapItem):
 
         self.creature = creature
         self.tile_size = tile_size
-        
-        self.setToolTip("Name: {}\nHP: {}".format(self.creature.get_name(), self.creature.get_hp()))
+    
         
         self.set_sprite()
         self.updateAll()
@@ -55,10 +54,6 @@ class Creature_graphitem(QGraphicsPixmapItem):
     def updatePosition(self):
         self.setPos(QPointF(self.creature.get_location().get_x()*self.tile_size, (self.creature.get_location().get_y())*self.tile_size))
         
-
-
-    def update_sprite(self): # modify tiles to free if trees burn
-        pass
 
     def mousePressEvent(self, event): # set creature active if it's players turn
         self.creature.set_moving(self.creature.player.is_moving())
