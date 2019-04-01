@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.Qt import QGraphicsRectItem, QGraphicsPixmapItem, QPixmap
+from PyQt5.Qt import QGraphicsRectItem, QGraphicsPixmapItem, QPixmap, QTextBrowser
 from PyQt5.QtGui import QColor, QBrush
 
 from location import Location
@@ -14,14 +14,14 @@ class Gamewindow(QtWidgets.QMainWindow):
     def __init__(self, game, tile_size):
         super().__init__()
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
-        self.horizontal = QtWidgets.QHBoxLayout() # Horizontal main layout
-        self.centralWidget().setLayout(self.horizontal)
+        self.vertical= QtWidgets.QVBoxLayout() # Horizontal main layout
+        self.centralWidget().setLayout(self.vertical)
         self.game = game
         self.tile_size = tile_size
         self.gameobjects = []
         self.init_window()
         self.init_buttons()
-        #self.init_textbox()
+        self.init_textconsole()
 
         self.add_tile_graphitems()
         self.add_creature_graphitems()
@@ -33,21 +33,20 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.timer.start(10) # Milliseconds
 
 
+    def init_textconsole(self):
+        self.console = QTextBrowser()
+        self.console.setText("Game start!")
+        self.vertical.addWidget(self.console)
+
     def add_tile_graphitems(self):
         
         for x in range(0, self.game.get_width()):
             for y in range(0, self.game.get_height()):
                 tile = self.game.get_tile(Location(x, y))
-                if tile.get_type() == Tile.FREE:
-                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
-                    self.scene.addItem(item)
-                elif tile.get_type() == Tile.TREE:
-                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
-                    self.scene.addItem(item)
-                else:
-                    item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
-                    self.scene.addItem(item)
-
+                item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
+                self.scene.addItem(item)
+                
+                
     def get_gameobjects(self):
         return self.gameobjects
 
@@ -84,7 +83,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         '''
         Sets up the window.
         '''
-        self.setGeometry(300, 300, 800, 800)
+        self.setGeometry(300, 300, 800, 600)
         self.setWindowTitle('Gamewindow')
         self.show()
 
@@ -96,7 +95,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.view = QtWidgets.QGraphicsView(self.scene, self)
         self.view.adjustSize()
         self.view.show()
-        self.horizontal.addWidget(self.view)
+        self.vertical.addWidget(self.view)
         
     def tile_click_callback(self, event, location):
         # do stuff

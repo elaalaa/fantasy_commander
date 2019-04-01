@@ -97,6 +97,6 @@ class Map():
         return 0 <= x_coordinate < self.get_width() and 0 <= y_coordinate < self.get_height()
 
 
-    def get_creatures(self): # tää ehka playerille?
+    def get_creatures(self): #maybe make player specific?
         
         return self.creatures[:]

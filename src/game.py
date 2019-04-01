@@ -7,18 +7,23 @@ from map import *
 from location import *
 from creature import *
 from player import *
+from GUI import *
 
 # Qtextbrowser
 
 class Game():
     
-    def __init__(self, human, ai, map):
+    def __init__(self, human, ai, map, gui):
         self.human = human # human goes always first
         self.ai = ai
         self.map = map
+        self.gui = gui
         
     def full_turn(self):
+        self.console.append("Player 1, your turn.")
         self.human.play_turn()
+        
+        self.console.append("Player 2, your turn.")
         self.ai.play_turn()
         
 

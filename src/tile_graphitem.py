@@ -5,10 +5,6 @@ from tile import Tile
 
 class Tile_graphitem(QGraphicsPixmapItem):
     
-    rock = QBrush(QColor(20,20,20))
-    free = QBrush(QColor(211,211,211))
-    tree = QBrush(QColor(34,139,34))
-    
     def __init__(self, tile, tile_size, x, y, callback):
         # Call init of the parent object
         super(Tile_graphitem, self).__init__()
