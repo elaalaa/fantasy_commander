@@ -44,19 +44,8 @@ class Creature():
     def get_name(self):
         
         return self.name
-    
-    def is_moving(self):
-        return self.moving
-    
-    def set_moving(self):
-        self.moving = True
-        
-    
-    def is_attacking(self):
-        return self.attacking
-    
-    def set_attacking(self):
-        self.attacking = True
+
+
 
     def set_type(self, type):
         
@@ -110,33 +99,6 @@ class Creature():
         pass
 
 
-    '''def move(self, direction): # ei tarvita jos tehdaan mousepressilla?
-        
-        if self.is_broken():
-            return False
-
-        target = self.get_location().get_neighbor(direction)
-        current_square = self.get_location_square()
-        target_square = self.get_world().get_square(target)
-        self.spin(direction)
-        if target_square.is_empty():
-            current_square.remove_robot()
-            self.location = target
-            target_square.set_robot(self)
-            return True
-        elif target_square.get_robot() is not None:
-            target_square.get_robot().destroy()
-            return False
-        else:   # collided with wall
-            self.destroy()
-            return False'''
-
-
-
-    '''def take_turn(self): # ehka tarvitaan, pitaa kattoo rakenne
-        
-        if not self.is_stuck() and not self.is_broken():
-            self.brain.move_body()'''
 
     def __str__(self):
         return self.get_name() + ' at location ' + str(self.get_location())

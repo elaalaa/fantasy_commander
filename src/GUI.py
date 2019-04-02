@@ -109,32 +109,3 @@ class Gamewindow(QtWidgets.QMainWindow):
     def print_message(self, msg):
         self.console.append(msg)
         
-    '''def tile_click_callback(self, event, location):
-        for item in self.get_gameobjects():
-            if item.creature.is_moving():
-                item.creature.location = location
-                item.creature.player.moving = False
-                self.console.append("Moved.")
-                self.console.append("Select creature to attack with.")
-                self.creature.player.moving = False
-                item.creature.player.attack()
-                
-            elif item.creature.is_attacking():
-                #do stuff
-                self.console.append("Attacked.")
-                self.console.append("End turn.")
-                item.creature.player.attacking = False
-    
-    def creature_moved(self, creature):
-        self.console.append("Choose tile to move to.")
-        creature.set_moving()
-        
-    def creature_attacked(self, creature):
-        self.console.append("Choose where to attack.")
-        creature.set_attacking()
-        
-    def print_message(self, msg):
-        self.console.append(msg)
-        
-    def mousePressEvent(self, event):
-        pass'''

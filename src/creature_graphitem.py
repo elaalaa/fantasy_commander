@@ -54,14 +54,7 @@ class Creature_graphitem(QGraphicsPixmapItem):
     def updatePosition(self):
         self.setPos(QPointF(self.creature.get_location().get_x()*self.tile_size, (self.creature.get_location().get_y())*self.tile_size))
         
-    
 
-    '''def mousePressEvent(self, event): # set creature active if it's players turn
-        if self.creature.player.is_attacking():
-            self.attack(self.creature)
-        elif self.creature.player.is_moving():
-            self.move(self.creature)
-        print(self.creature.name)'''
         
     
         

@@ -30,9 +30,7 @@ class Game():
         self.print_msg("Player1, your turn")
         self.print_msg("Select creature to move")
         
-    '''    
-    def full_turn(self, console):
-        pass'''
+
     
     def move_select(self, location):
         creature = self.map.get_creature(location)
@@ -44,7 +42,9 @@ class Game():
     def move_action(self, location):
         empty = self.map.get_tile(location).is_empty()
         if empty == True:
+            self.map.get_tile(self.currentcreature.location).remove_creature()
             self.currentcreature.location = location
+            self.map.get_tile(location).set_creature(self.currentcreature)
             self.gamestate = Game.ATTACKSELECT
             self.print_msg("Select creature to attack with")
             
