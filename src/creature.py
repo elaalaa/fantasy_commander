@@ -6,14 +6,14 @@ class Creature():
     NINJA = 2
     SNIPER = 3
 
-    def __init__(self, name, type, side, location):
+    def __init__(self, name, type, player, location):
         
         self.set_name(name)
         self.map = None
         self.location = location     # most-recent location
         self.destroyed = False   # flag if character is destroyed
         self.set_type(type)      # creature type, defines movement and attack
-        self.player = side
+        self.player = player
         self.moving = False
         self.attacking = False
         self.set_hp()
@@ -48,15 +48,15 @@ class Creature():
     def is_moving(self):
         return self.moving
     
-    def set_moving(self, bool):
-        self.moving = bool
+    def set_moving(self):
+        self.moving = True
         
     
     def is_attacking(self):
         return self.attacking
     
-    def set_attacking(self, bool):
-        self.attacking = bool
+    def set_attacking(self):
+        self.attacking = True
 
     def set_type(self, type):
         
@@ -105,6 +105,9 @@ class Creature():
             self.map = map
             self.location = location
             return True
+        
+    def attack(self, location):
+        pass
 
 
     '''def move(self, direction): # ei tarvita jos tehdaan mousepressilla?

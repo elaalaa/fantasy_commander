@@ -46,4 +46,3 @@ class Tile():
         self.creature = None
         return removed
 
-

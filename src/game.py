@@ -1,8 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
-from GUI import Gamewindow
-
 from map import *
 from location import *
 from creature import *
@@ -13,96 +11,168 @@ from GUI import *
 
 class Game():
     
-    def __init__(self, human, ai, map, gui):
+    MOVESELECT = 0
+    MOVEACTION = 1
+    ATTACKSELECT = 2
+    ATTACKACTION = 3
+    
+    
+    
+    def __init__(self, human, ai, map, print_msg):
         self.human = human # human goes always first
         self.ai = ai
         self.map = map
-        self.gui = gui
+        self.on = 1
+        self.print_msg = print_msg
+        self.gamestate = 0
+        self.currentplayer = human
+        self.statemethods = [self.move_select, self.move_action, self.attack_select, self.attack_action]
+        self.print_msg("Player1, your turn")
+        self.print_msg("Select creature to move")
         
-    def full_turn(self):
-        self.console.append("Player 1, your turn.")
-        self.human.play_turn()
         
-        self.console.append("Player 2, your turn.")
-        self.ai.play_turn()
+    def full_turn(self, console):
+        pass
+    
+    def move_select(self, location):
+        creature = self.map.get_creature(location)
+        if creature != None and creature.player == self.currentplayer:
+            self.gamestate = Game.MOVEACTION
+            self.currentcreature = creature
+            self.print_msg("Select where to move")
+            
+    def move_action(self, location):
+        empty = self.map.get_tile(location).is_empty()
+        if empty == True:
+            self.currentcreature.location = location
+            self.gamestate = Game.ATTACKSELECT
+            self.print_msg("Select creature to attack with")
+            
+    def attack_select(self, location):
+        creature = self.map.get_creature(location)
+        if creature != None and creature.player == self.currentplayer:
+            self.gamestate = Game.ATTACKACTION
+            self.currentcreature = creature
+            self.print_msg("Select where to attack")
+    
+    def attack_action(self, location):
+        if self.map.get_tile(location).type == Tile.FREE:
+            self.currentcreature.attack(location)
+            self.gamestate = Game.MOVESELECT
+            self.currentcreature = None
+            self.change_players()
+            self.print_msg("Select creature to move")
+            
+    def change_players(self):
+        if self.currentplayer == self.human:
+            self.currentplayer = self.ai
+            self.print_msg("Player2, your turn")
+        else:
+            self.currentplayer = self.human
+            self.print_msg("Player1, your turn")
+    
+    def on_click(self, location):
+        self.statemethods[self.gamestate](location)
         
 
 
 def main():
+    player1 = Player(Player.HUMAN)
+    player2 = Player(Player.AI)
     
     test_map = Map('maps/map2.txt')
+    
 
     tank_location = Location(0, 0)
-    tank_body = Creature('Tank1', Creature.TANK, Player.HUMAN, tank_location)
+    tank_body = Creature('Tank1', Creature.TANK, player1, tank_location)
     test_map.add_creature(tank_body, tank_location)
+    player1.add_teammember(tank_body)
 
     mage_location = Location(0, 1)
-    mage_body = Creature('Mage1', Creature.MAGE, Player.HUMAN, mage_location)
+    mage_body = Creature('Mage1', Creature.MAGE, player1, mage_location)
     test_map.add_creature(mage_body, mage_location)
+    player1.add_teammember(mage_body)
 
     ninja_location = Location(0, 2)
-    ninja_body = Creature('Ninja1', Creature.NINJA, Player.HUMAN, ninja_location)
+    ninja_body = Creature('Ninja1', Creature.NINJA, player1, ninja_location)
     test_map.add_creature(ninja_body, ninja_location)
+    player1.add_teammember(ninja_body)
 
     sniper_location = Location(0, 3)
-    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.HUMAN, sniper_location)
+    sniper_body = Creature('Sniper1', Creature.SNIPER, player1, sniper_location)
     test_map.add_creature(sniper_body, sniper_location)
+    player1.add_teammember(sniper_body)
     
-    tank_location = Location(0, 4)
-    tank_body = Creature('Tank2', Creature.TANK, Player.HUMAN, tank_location)
-    test_map.add_creature(tank_body, tank_location)
+    tank2_location = Location(0, 4)
+    tank2_body = Creature('Tank2', Creature.TANK, player1, tank2_location)
+    test_map.add_creature(tank2_body, tank2_location)
+    player1.add_teammember(tank2_body)
 
-    mage_location = Location(0, 5)
-    mage_body = Creature('Mage2', Creature.MAGE, Player.HUMAN, mage_location)
-    test_map.add_creature(mage_body, mage_location)
+    mage2_location = Location(0, 5)
+    mage2_body = Creature('Mage2', Creature.MAGE, player1, mage2_location)
+    test_map.add_creature(mage2_body, mage2_location)
+    player1.add_teammember(mage2_body)
 
-    ninja_location = Location(0, 6)
-    ninja_body = Creature('Ninja2', Creature.NINJA, Player.HUMAN, ninja_location)
-    test_map.add_creature(ninja_body, ninja_location)
+    ninja2_location = Location(0, 6)
+    ninja2_body = Creature('Ninja2', Creature.NINJA, player1, ninja2_location)
+    test_map.add_creature(ninja2_body, ninja2_location)
+    player1.add_teammember(ninja2_body)
 
-    sniper_location = Location(0, 7)
-    sniper_body = Creature('Sniper2', Creature.SNIPER, Player.HUMAN, sniper_location)
-    test_map.add_creature(sniper_body, sniper_location)
+    sniper2_location = Location(0, 7)
+    sniper2_body = Creature('Sniper2', Creature.SNIPER, player1, sniper2_location)
+    test_map.add_creature(sniper2_body, sniper2_location)
+    player1.add_teammember(sniper2_body)
     
-    tank_location = Location(13, 0)
-    tank_body = Creature('Tank1', Creature.TANK, Player.AI, tank_location)
-    test_map.add_creature(tank_body, tank_location)
+    p2_tank_location = Location(13, 0)
+    p2_tank_body = Creature('Tank1', Creature.TANK, player2, p2_tank_location)
+    test_map.add_creature(p2_tank_body, p2_tank_location)
+    player2.add_teammember(p2_tank_body)
 
-    mage_location = Location(13, 1)
-    mage_body = Creature('Mage1', Creature.MAGE, Player.AI, mage_location)
-    test_map.add_creature(mage_body, mage_location)
+    p2_mage_location = Location(13, 1)
+    p2_mage_body = Creature('Mage1', Creature.MAGE, player2, p2_mage_location)
+    test_map.add_creature(p2_mage_body, p2_mage_location)
+    player2.add_teammember(p2_mage_body)
 
-    ninja_location = Location(13, 2)
-    ninja_body = Creature('Ninja1', Creature.NINJA, Player.AI, ninja_location)
-    test_map.add_creature(ninja_body, ninja_location)
+    p2_ninja_location = Location(13, 2)
+    p2_ninja_body = Creature('Ninja1', Creature.NINJA, player2, p2_ninja_location)
+    test_map.add_creature(p2_ninja_body, p2_ninja_location)
+    player2.add_teammember(p2_ninja_body)
 
-    sniper_location = Location(13, 3)
-    sniper_body = Creature('Sniper1', Creature.SNIPER, Player.AI, sniper_location)
-    test_map.add_creature(sniper_body, sniper_location)
+    p2_sniper_location = Location(13, 3)
+    p2_sniper_body = Creature('Sniper1', Creature.SNIPER, player2, p2_sniper_location)
+    test_map.add_creature(p2_sniper_body, p2_sniper_location)
+    player2.add_teammember(p2_sniper_body)
     
-    tank_location = Location(13, 4)
-    tank_body = Creature('Tank2', Creature.TANK, Player.AI, tank_location)
-    test_map.add_creature(tank_body, tank_location)
+    p2_tank2_location = Location(13, 4)
+    p2_tank2_body = Creature('Tank2', Creature.TANK, player2, p2_tank2_location)
+    test_map.add_creature(p2_tank2_body, p2_tank2_location)
+    player2.add_teammember(p2_tank2_body)
 
-    mage_location = Location(13, 5)
-    mage_body = Creature('Mage2', Creature.MAGE, Player.AI, mage_location)
-    test_map.add_creature(mage_body, mage_location)
+    p2_mage2_location = Location(13, 5)
+    p2_mage2_body = Creature('Mage2', Creature.MAGE, player2, p2_mage2_location)
+    test_map.add_creature(p2_mage2_body, p2_mage2_location)
+    player2.add_teammember(p2_mage2_body)
 
-    ninja_location = Location(13, 6)
-    ninja_body = Creature('Ninja2', Creature.NINJA, Player.AI, ninja_location)
-    test_map.add_creature(ninja_body, ninja_location)
+    p2_ninja2_location = Location(13, 6)
+    p2_ninja2_body = Creature('Ninja2', Creature.NINJA, player2, p2_ninja2_location)
+    test_map.add_creature(p2_ninja2_body, p2_ninja2_location)
+    player2.add_teammember(p2_ninja2_body)
 
-    sniper_location = Location(13, 7)
-    sniper_body = Creature('Sniper2', Creature.SNIPER, Player.AI, sniper_location)
-    test_map.add_creature(sniper_body, sniper_location)
+    p2_sniper2_location = Location(13, 7)
+    p2_sniper2_body = Creature('Sniper2', Creature.SNIPER, player2, p2_sniper2_location)
+    test_map.add_creature(p2_sniper2_body, p2_sniper2_location)
+    player2.add_teammember(p2_sniper2_body)
     
     
 
     # Every Qt application must have one instance of QApplication.
     global app # Use global to prevent crashing on exit
     app = QApplication(sys.argv)
+    
     gui = Gamewindow(test_map, 50)
-
+    game = Game(player1, player2, test_map, gui.print_message)
+    gui.scene.click_handler = game.on_click
+    #gui.next_turn_btn = game.full_turn()
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())
 

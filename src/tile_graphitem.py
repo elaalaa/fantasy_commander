@@ -28,10 +28,10 @@ class Tile_graphitem(QGraphicsPixmapItem):
             self.setPixmap(QPixmap('graphics/rock_tile.png').scaled(self.tile_size, self.tile_size))
             self.setOffset(self.x * self.tile_size, self.y * self.tile_size)
             
-    def mousePressEvent(self, event): # move moving creature to tile
+    '''def mousePressEvent(self, event): # move moving creature to tile
         click_type = event
         location = self.tile.get_location()
-        self.callback(click_type, location)
+        self.callback(click_type, location)'''
         
         
         

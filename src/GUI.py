@@ -7,21 +7,29 @@ from tile import Tile
 from creature_graphitem import Creature_graphitem
 from tile_graphitem import Tile_graphitem
 
-
+class MyScene(QtWidgets.QGraphicsScene):
+    def __init__(self):
+        super().__init__()
+        
+    def mousePressEvent(self, event):
+        if 0 <= event.scenePos().x() <= (14 * 50) and 0 <= event.scenePos().y() <= (8*50):
+            location = Location(event.scenePos().x()//50, event.scenePos().y()//50)
+            self.click_handler(location)
+            
 
 class Gamewindow(QtWidgets.QMainWindow):
     
-    def __init__(self, game, tile_size):
+    def __init__(self, map, tile_size):
         super().__init__()
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
         self.vertical= QtWidgets.QVBoxLayout() # Horizontal main layout
         self.centralWidget().setLayout(self.vertical)
-        self.game = game
+        self.map = map
         self.tile_size = tile_size
         self.gameobjects = []
         self.init_window()
-        self.init_buttons()
         self.init_textconsole()
+        #self.init_buttons()
 
         self.add_tile_graphitems()
         self.add_creature_graphitems()
@@ -40,9 +48,9 @@ class Gamewindow(QtWidgets.QMainWindow):
 
     def add_tile_graphitems(self):
         
-        for x in range(0, self.game.get_width()):
-            for y in range(0, self.game.get_height()):
-                tile = self.game.get_tile(Location(x, y))
+        for x in range(0, self.map.get_width()):
+            for y in range(0, self.map.get_height()):
+                tile = self.map.get_tile(Location(x, y))
                 item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
                 self.scene.addItem(item)
                 
@@ -53,9 +61,9 @@ class Gamewindow(QtWidgets.QMainWindow):
 
     def add_creature_graphitems(self):
         
-        for creature in self.game.get_creatures():
+        for creature in self.map.get_creatures():
             if creature not in self.get_gameobjects():
-                item = Creature_graphitem(creature, self.tile_size, self.creature_click_callback)
+                item = Creature_graphitem(creature, self.tile_size, self.creature_moved, self.creature_attacked)
                 self.scene.addItem(item)
                 self.gameobjects.append(item)
 
@@ -65,10 +73,14 @@ class Gamewindow(QtWidgets.QMainWindow):
         Adds buttons to the window and connects them to their respective functions
         See: QPushButton at http://doc.qt.io/qt-5/qpushbutton.html
         '''
-        pass
+        #pass
         '''self.next_turn_btn = QtWidgets.QPushButton("Next full turn")
         self.next_turn_btn.clicked.connect(self.world.next_full_turn)
         self.horizontal.addWidget(self.next_turn_btn)'''
+        self.next_turn_btn = QtWidgets.QPushButton("End turn")
+        self.next_turn_btn.clicked.connect()
+        self.scene.addWidget(self.next_turn_btn)
+        self.next_turn_btn.move(750,250)
 
     def update_objects(self): # update alive characters and remove dead
         
@@ -83,13 +95,13 @@ class Gamewindow(QtWidgets.QMainWindow):
         '''
         Sets up the window.
         '''
-        self.setGeometry(300, 300, 800, 600)
-        self.setWindowTitle('Gamewindow')
+        self.setGeometry(300, 300, 1000, 650)
+        self.setWindowTitle('Fantasy Commander 1.0')
         self.show()
 
         # Add a scene for drawing 2d objects
-        self.scene = QtWidgets.QGraphicsScene()
-        self.scene.setSceneRect(0, 0, 700, 700)
+        self.scene = MyScene()
+        self.scene.setSceneRect(0, 0, 800, 50 * 9)
 
         # Add a view for showing the scene
         self.view = QtWidgets.QGraphicsView(self.scene, self)
@@ -98,9 +110,31 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.vertical.addWidget(self.view)
         
     def tile_click_callback(self, event, location):
-        # do stuff
-        pass
+        for item in self.get_gameobjects():
+            if item.creature.is_moving():
+                item.creature.location = location
+                item.creature.player.moving = False
+                self.console.append("Moved.")
+                self.console.append("Select creature to attack with.")
+                self.creature.player.moving = False
+                item.creature.player.attack()
+                
+            elif item.creature.is_attacking():
+                #do stuff
+                self.console.append("Attacked.")
+                self.console.append("End turn.")
+                item.creature.player.attacking = False
     
-    def creature_click_callback(self, creature):
-        # do stuff
+    def creature_moved(self, creature):
+        self.console.append("Choose tile to move to.")
+        creature.set_moving()
+        
+    def creature_attacked(self, creature):
+        self.console.append("Choose where to attack.")
+        creature.set_attacking()
+        
+    def print_message(self, msg):
+        self.console.append(msg)
+        
+    def mousePressEvent(self, event):
         pass

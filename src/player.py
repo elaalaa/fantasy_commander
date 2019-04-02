@@ -14,24 +14,14 @@ class Player():
     def add_teammember(self, creature):
         self.team.append(creature)
     
-    def play_turn(self):
-        # 1. choose creature to move
-        self.moving = True
-        # print a message that it's your turn
+    def move(self):
+        if self.side == Player.HUMAN:
+            self.moving = True
         
-        
-        # choose tile to move to
-        
-        self.moving = False
-        # update position
-        
-        self.attacking = True
-        
-        # choose creature to attack with
-        
-        # update effects
-        self.attacking = False
-        
+    def attack(self):
+        if self.side == Player.HUMAN:
+            self.attacking = True
+            
     
     def is_moving(self):
         return self.moving

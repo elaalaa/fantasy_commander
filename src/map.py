@@ -48,11 +48,7 @@ class Map():
 
 
     def get_tile(self, location):
-        
-        if self.contains(location):
-            return self.tiles[location.get_x()][location.get_y()]
-        else:
-            return Tile(True)
+        return self.tiles[int(location.get_x())][int(location.get_y())]
 
 
     def get_number_of_creatures(self):
@@ -60,12 +56,12 @@ class Map():
         return len(self.creatures)
 
 
-    def get_creature(self, turn_number):
+    def get_creature(self, location):
         
-        if 0 <= turn_number < self.get_number_of_creatures():
-            return self.creatures[turn_number]
-        else:
-            return None
+        for creature in self.creatures:
+            if location.x == creature.location.x and location.y == creature.location.y:
+                return creature
+        return None
 
 
     def get_next_creature(self):
