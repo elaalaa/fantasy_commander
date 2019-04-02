@@ -51,7 +51,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         for x in range(0, self.map.get_width()):
             for y in range(0, self.map.get_height()):
                 tile = self.map.get_tile(Location(x, y))
-                item = Tile_graphitem(tile, self.tile_size, x, y, self.tile_click_callback)
+                item = Tile_graphitem(tile, self.tile_size, x, y)
                 self.scene.addItem(item)
                 
                 
@@ -63,7 +63,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         
         for creature in self.map.get_creatures():
             if creature not in self.get_gameobjects():
-                item = Creature_graphitem(creature, self.tile_size, self.creature_moved, self.creature_attacked)
+                item = Creature_graphitem(creature, self.tile_size)
                 self.scene.addItem(item)
                 self.gameobjects.append(item)
 
@@ -73,14 +73,11 @@ class Gamewindow(QtWidgets.QMainWindow):
         Adds buttons to the window and connects them to their respective functions
         See: QPushButton at http://doc.qt.io/qt-5/qpushbutton.html
         '''
-        #pass
+        pass
         '''self.next_turn_btn = QtWidgets.QPushButton("Next full turn")
         self.next_turn_btn.clicked.connect(self.world.next_full_turn)
         self.horizontal.addWidget(self.next_turn_btn)'''
-        self.next_turn_btn = QtWidgets.QPushButton("End turn")
-        self.next_turn_btn.clicked.connect()
-        self.scene.addWidget(self.next_turn_btn)
-        self.next_turn_btn.move(750,250)
+        
 
     def update_objects(self): # update alive characters and remove dead
         
@@ -109,7 +106,10 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.view.show()
         self.vertical.addWidget(self.view)
         
-    def tile_click_callback(self, event, location):
+    def print_message(self, msg):
+        self.console.append(msg)
+        
+    '''def tile_click_callback(self, event, location):
         for item in self.get_gameobjects():
             if item.creature.is_moving():
                 item.creature.location = location
@@ -137,4 +137,4 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.console.append(msg)
         
     def mousePressEvent(self, event):
-        pass
+        pass'''

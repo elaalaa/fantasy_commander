@@ -5,13 +5,12 @@ from tile import Tile
 
 class Tile_graphitem(QGraphicsPixmapItem):
     
-    def __init__(self, tile, tile_size, x, y, callback):
+    def __init__(self, tile, tile_size, x, y):
         # Call init of the parent object
         super(Tile_graphitem, self).__init__()
         self.x = x
         self.y = y
         
-        self.callback = callback
         self.tile = tile
         self.tile_size = tile_size
         self.set_sprite()

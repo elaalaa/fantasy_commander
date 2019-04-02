@@ -8,7 +8,7 @@ from pip._vendor.distlib._backport.shutil import move
 class Creature_graphitem(QGraphicsPixmapItem):
    
 
-    def __init__(self, creature, tile_size, move, attack):
+    def __init__(self, creature, tile_size):
         # Call init of the parent object
         super(Creature_graphitem, self).__init__()
 
@@ -18,8 +18,6 @@ class Creature_graphitem(QGraphicsPixmapItem):
         
         self.set_sprite()
         self.updateAll()
-        self.move = move
-        self.attack = attack
         
     
 

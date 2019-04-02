@@ -30,9 +30,9 @@ class Game():
         self.print_msg("Player1, your turn")
         self.print_msg("Select creature to move")
         
-        
+    '''    
     def full_turn(self, console):
-        pass
+        pass'''
     
     def move_select(self, location):
         creature = self.map.get_creature(location)
@@ -66,10 +66,10 @@ class Game():
     def change_players(self):
         if self.currentplayer == self.human:
             self.currentplayer = self.ai
-            self.print_msg("Player2, your turn")
+            self.print_msg("\nPlayer2, your turn")
         else:
             self.currentplayer = self.human
-            self.print_msg("Player1, your turn")
+            self.print_msg("\nPlayer1, your turn")
     
     def on_click(self, location):
         self.statemethods[self.gamestate](location)
@@ -172,7 +172,7 @@ def main():
     gui = Gamewindow(test_map, 50)
     game = Game(player1, player2, test_map, gui.print_message)
     gui.scene.click_handler = game.on_click
-    #gui.next_turn_btn = game.full_turn()
+    
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())
 
