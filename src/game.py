@@ -7,7 +7,6 @@ from creature import *
 from player import *
 from GUI import *
 
-# Qtextbrowser
 
 class Game():
     
@@ -17,15 +16,14 @@ class Game():
     ATTACKACTION = 3
     
     
-    
-    def __init__(self, human, ai, map, print_msg):
-        self.human = human # human goes always first
-        self.ai = ai
+    def __init__(self, player1, player2, map, print_msg):
+        self.player1 = player1
+        self.player2 = player2
         self.map = map
         self.on = 1
         self.print_msg = print_msg
         self.gamestate = 0
-        self.currentplayer = human
+        self.currentplayer = player1
         self.statemethods = [self.move_select, self.move_action, self.attack_select, self.attack_action]
         self.print_msg("Player1, your turn")
         self.print_msg("Select creature to move")
@@ -45,6 +43,7 @@ class Game():
             self.map.get_tile(self.currentcreature.location).remove_creature()
             self.currentcreature.location = location
             self.map.get_tile(location).set_creature(self.currentcreature)
+            self.currentcreature = None
             self.gamestate = Game.ATTACKSELECT
             self.print_msg("Select creature to attack with")
             
@@ -64,12 +63,16 @@ class Game():
             self.print_msg("Select creature to move")
             
     def change_players(self):
-        if self.currentplayer == self.human:
-            self.currentplayer = self.ai
+        if self.currentplayer == self.player1:
+            self.currentplayer = self.player2
             self.print_msg("\nPlayer2, your turn")
         else:
-            self.currentplayer = self.human
+            self.currentplayer = self.player1
             self.print_msg("\nPlayer1, your turn")
+        if self.currentplayer.type == Player.AI: # ai plays turn, not finished
+            self.currentplayer.ai_turn()
+            self.gamestate = Game.MOVESELECT
+            self.change_players()
     
     def on_click(self, location):
         self.statemethods[self.gamestate](location)
@@ -77,8 +80,8 @@ class Game():
 
 
 def main():
-    player1 = Player(Player.HUMAN)
-    player2 = Player(Player.AI)
+    player1 = Player(1, Player.HUMAN)
+    player2 = Player(2, Player.HUMAN)
     
     test_map = Map('maps/map2.txt')
     

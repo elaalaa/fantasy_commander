@@ -24,22 +24,22 @@ class Creature_graphitem(QGraphicsPixmapItem):
     def set_sprite(self):
         
         if self.creature.type == Creature.TANK:
-            if self.creature.player.side == Player.HUMAN:
+            if self.creature.player.side == 1:
                 self.setPixmap(QPixmap('graphics/tank2_p1.png').scaled(self.tile_size, self.tile_size))
             else:
                 self.setPixmap(QPixmap('graphics/tank2_p2.png').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.MAGE:
-            if self.creature.player.side == Player.HUMAN:
+            if self.creature.player.side == 1:
                 self.setPixmap(QPixmap('graphics/mage2_p1.png').scaled(self.tile_size, self.tile_size))
             else:
                 self.setPixmap(QPixmap('graphics/mage2_p2.png').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.NINJA:
-            if self.creature.player.side == Player.HUMAN:
+            if self.creature.player.side == 1:
                 self.setPixmap(QPixmap('graphics/ninja2_p1.png').scaled(self.tile_size, self.tile_size))
             else:
                 self.setPixmap(QPixmap('graphics/ninja2_p2.png').scaled(self.tile_size, self.tile_size))
         elif self.creature.type == Creature.SNIPER:
-            if self.creature.player.side == Player.HUMAN:
+            if self.creature.player.side == 1:
                 self.setPixmap(QPixmap('graphics/sniper2_p1.png').scaled(self.tile_size, self.tile_size))
             else:
                 self.setPixmap(QPixmap('graphics/sniper2_p2.png').scaled(self.tile_size, self.tile_size))

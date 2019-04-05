@@ -8,11 +8,12 @@ from creature_graphitem import Creature_graphitem
 from tile_graphitem import Tile_graphitem
 
 class MyScene(QtWidgets.QGraphicsScene):
-    def __init__(self):
+    def __init__(self, map):
         super().__init__()
+        self.map = map
         
     def mousePressEvent(self, event):
-        if 0 <= event.scenePos().x() <= (14 * 50) and 0 <= event.scenePos().y() <= (8*50):
+        if 0 <= event.scenePos().x() <= (self.map.get_width() * 50) and 0 <= event.scenePos().y() <= (self.map.get_height()*50):
             location = Location(event.scenePos().x()//50, event.scenePos().y()//50)
             self.click_handler(location)
             
@@ -97,7 +98,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.show()
 
         # Add a scene for drawing 2d objects
-        self.scene = MyScene()
+        self.scene = MyScene(self.map)
         self.scene.setSceneRect(0, 0, 800, 50 * 9)
 
         # Add a view for showing the scene
