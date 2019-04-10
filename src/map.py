@@ -1,4 +1,5 @@
 from tile import Tile
+from location import Location
 
 class Map():
     
@@ -21,7 +22,7 @@ class Map():
             for y in range(self.get_height()):
                 line = file.readline()
                 for x in range(self.get_width()):
-                    self.tiles[x][y] = Tile(int(line[x]))
+                    self.tiles[x][y] = Tile(Location(x, y), int(line[x]))
         self.creatures = []
         self.turn = 0
 

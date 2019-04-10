@@ -14,7 +14,7 @@ class MyScene(QtWidgets.QGraphicsScene):
         
     def mousePressEvent(self, event):
         if 0 <= event.scenePos().x() <= (self.map.get_width() * 50) and 0 <= event.scenePos().y() <= (self.map.get_height()*50):
-            location = Location(event.scenePos().x()//50, event.scenePos().y()//50)
+            location = Location(int(event.scenePos().x()//50), int(event.scenePos().y()//50))
             self.click_handler(location)
             
 
@@ -28,6 +28,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.map = map
         self.tile_size = tile_size
         self.gameobjects = []
+        self.highlighted = []
         self.init_window()
         self.init_textconsole()
         #self.init_buttons()
@@ -55,6 +56,22 @@ class Gamewindow(QtWidgets.QMainWindow):
                 item = Tile_graphitem(tile, self.tile_size, x, y)
                 self.scene.addItem(item)
                 
+    
+    def highlight_squares(self, squares):
+        
+        for square in squares:
+            item = QGraphicsRectItem(square.location.x * self.tile_size, square.location.y *self.tile_size, self.tile_size, self.tile_size)
+            item.setBrush(QBrush(QColor(255, 145, 0, 128)))
+            self.scene.addItem(item)
+            self.highlighted.append(item)
+        
+    def remove_highlighted(self):
+        
+        for item in self.highlighted:
+            self.scene.removeItem(item)
+        self.highlighted = []
+
+            
                 
     def get_gameobjects(self):
         return self.gameobjects

@@ -1,4 +1,5 @@
 from location import Location
+from tile import Tile
 
 class Creature():
     TANK = 0
@@ -44,6 +45,13 @@ class Creature():
     def get_type(self):
         
         return self.type
+    
+    def take_damage(self, amount):
+        if self.hp > amount:
+            self.hp -= amount
+        else:
+            self.hp = 0
+            self.destroy()
 
 
     def get_map(self):
@@ -105,10 +113,18 @@ class Tank(Creature):
         return squares
     
     def attack_squares(self):
-        pass
+        squares = []
+        location = self.location
+        for x in range(location.x - 1, location.x + 2):
+            for y in range(location.y - 1, location.y + 2):
+                if self.map.contains(Location(x, y)) and self.map.get_tile(Location(x, y)).type == Tile.FREE:
+                    squares.append(self.map.get_tile(Location(x, y)))
+        return squares
     
     def attack(self, location):
-        pass
+        creature = self.map.get_tile(location).get_creature()
+        if creature != None:
+            creature.take_damage(10)
     
     
 class Mage(Creature):
@@ -127,10 +143,20 @@ class Mage(Creature):
         return squares
     
     def attack_squares(self):
-        pass
+        squares = []
+        location = self.location
+        for x in range(location.x - 2, location.x + 3):
+            if self.map.contains(Location(x, location.y)) and self.map.get_tile(Location(x, location.y)).type != Tile.ROCK:
+                squares.append(self.map.get_tile(Location(x, location.y)))
+        for y in range(location.y - 2, location.y + 3):
+            if self.map.contains(Location(location.x, y)) and self.map.get_tile(Location(location.x, y)).type != Tile.ROCK:
+                squares.append(self.map.get_tile(Location(location.x, y)))
+        return squares
     
     def attack(self, location):
-        pass
+        creature = self.map.get_tile(location).get_creature()
+        if creature != None:
+            creature.take_damage(10)
     
 class Ninja(Creature):
     
@@ -146,21 +172,27 @@ class Ninja(Creature):
             step = 1
             while (1):
                 next = Location(location.x + (direction[0] * step), location.y + (direction[1] * step))
-                if self.map.contains(next):
-                    if self.map.get_tile(next).is_empty():
-                        squares.append(self.map.get_tile(next))
-                    else:
-                        break
+                if self.map.contains(next) and self.map.get_tile(next).is_empty():
+                    squares.append(self.map.get_tile(next))
                 else:
                     break
                 step = step + 1
         return squares
     
     def attack_squares(self):
-        pass
+        squares = []
+        location = self.location
+        for x in range(location.x - 1, location.x + 2):
+            for y in range(location.y - 1, location.y + 2):
+                if self.map.contains(Location(x, y)) and self.map.get_tile(Location(x, y)).type == Tile.FREE:
+                    squares.append(self.map.get_tile(Location(x, y)))
+        return squares
+        
     
     def attack(self, location):
-        pass
+        creature = self.map.get_tile(location).get_creature()
+        if creature != None:
+            creature.take_damage(5)
     
     
 class Sniper(Creature):
@@ -179,7 +211,21 @@ class Sniper(Creature):
         return squares
     
     def attack_squares(self):
-        pass
+        squares = []
+        directions = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+        location = self.location
+        for direction in directions:
+            step = 1
+            while (1):
+                next = Location(location.x + (direction[0] * step), location.y + (direction[1] * step))
+                if self.map.contains(next) and self.map.get_tile(next).type == Tile.FREE:
+                    squares.append(self.map.get_tile(next))
+                else:
+                    break
+                step = step + 1
+        return squares
     
     def attack(self, location):
-        pass
+        creature = self.map.get_tile(location).get_creature()
+        if creature != None:
+            creature.take_damage(5)

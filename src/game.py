@@ -20,8 +20,9 @@ class Game():
         self.player1 = player1
         self.player2 = player2
         self.map = map
-        self.on = 1
         self.print_msg = print_msg
+        self.squares = []
+        self.turn = 0
         self.gamestate = 0
         self.currentplayer = player1
         self.statemethods = [self.move_select, self.move_action, self.attack_select, self.attack_action]
@@ -36,12 +37,15 @@ class Game():
             self.gamestate = Game.MOVEACTION
             self.currentcreature = creature
             self.print_msg("Select where to move")
+            self.squares = self.currentcreature.movement_squares()
+            self.highlight(self.squares)
+            
             
     def move_action(self, location):
-        squares = self.currentcreature.movement_squares()
-        if self.map.get_tile(location) in squares:
+        if self.map.get_tile(location) in self.squares:
             empty = self.map.get_tile(location).is_empty()
             if empty == True:
+                self.unhighlight()
                 self.map.get_tile(self.currentcreature.location).remove_creature()
                 self.currentcreature.location = location
                 self.map.get_tile(location).set_creature(self.currentcreature)
@@ -52,12 +56,15 @@ class Game():
     def attack_select(self, location):
         creature = self.map.get_creature(location)
         if creature != None and creature.player == self.currentplayer:
-            self.gamestate = Game.ATTACKACTION
             self.currentcreature = creature
             self.print_msg("Select where to attack")
+            self.squares = self.currentcreature.attack_squares()
+            self.highlight(self.squares)
+            self.gamestate = Game.ATTACKACTION
     
     def attack_action(self, location):
-        if self.map.get_tile(location).type == Tile.FREE:
+        if self.map.get_tile(location) in self.squares:
+            self.unhighlight()
             self.currentcreature.attack(location)
             self.gamestate = Game.MOVESELECT
             self.currentcreature = None
@@ -65,16 +72,17 @@ class Game():
             self.print_msg("Select creature to move")
             
     def change_players(self):
+        self.turn += 1
         if self.currentplayer == self.player1:
             self.currentplayer = self.player2
             self.print_msg("\nPlayer2, your turn")
         else:
             self.currentplayer = self.player1
             self.print_msg("\nPlayer1, your turn")
-        if self.currentplayer.type == Player.AI: # ai plays turn, not finished
+        '''if self.currentplayer.type == Player.AI: # ai plays turn, not finished
             self.currentplayer.ai_turn()
             self.gamestate = Game.MOVESELECT
-            self.change_players()
+            self.change_players()'''
     
     def on_click(self, location):
         self.statemethods[self.gamestate](location)
@@ -177,6 +185,8 @@ def main():
     gui = Gamewindow(test_map, 50)
     game = Game(player1, player2, test_map, gui.print_message)
     gui.scene.click_handler = game.on_click
+    game.highlight = gui.highlight_squares
+    game.unhighlight = gui.remove_highlighted
     
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())

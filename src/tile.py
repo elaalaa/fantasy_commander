@@ -4,10 +4,11 @@ class Tile():
     TREE = 1
     ROCK = 2
 
-    def __init__(self, tile_type = FREE):
+    def __init__(self, location, tile_type = FREE):
         
         self.creature = None     # most-recent holder (None if no robot in square)
         self.type = tile_type  # flag (one-way currently, since walls can not be removed)
+        self.location = location
 
 
     def set_type(self, type):
