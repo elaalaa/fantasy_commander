@@ -117,6 +117,8 @@ class Tank(Creature):
         location = self.location
         for x in range(location.x - 1, location.x + 2):
             for y in range(location.y - 1, location.y + 2):
+                if x == location.x and y == location.y:
+                    continue
                 if self.map.contains(Location(x, y)) and self.map.get_tile(Location(x, y)).type == Tile.FREE:
                     squares.append(self.map.get_tile(Location(x, y)))
         return squares
@@ -145,10 +147,14 @@ class Mage(Creature):
     def attack_squares(self):
         squares = []
         location = self.location
-        for x in range(location.x - 2, location.x + 3):
+        for x in range(location.x - 4, location.x + 5):
+            if x in range(location.x - 1, location.x + 2):
+                    continue
             if self.map.contains(Location(x, location.y)) and self.map.get_tile(Location(x, location.y)).type != Tile.ROCK:
                 squares.append(self.map.get_tile(Location(x, location.y)))
-        for y in range(location.y - 2, location.y + 3):
+        for y in range(location.y - 4, location.y + 5):
+            if y in range(location.y - 1, location.y + 2):
+                    continue
             if self.map.contains(Location(location.x, y)) and self.map.get_tile(Location(location.x, y)).type != Tile.ROCK:
                 squares.append(self.map.get_tile(Location(location.x, y)))
         return squares
@@ -184,6 +190,8 @@ class Ninja(Creature):
         location = self.location
         for x in range(location.x - 1, location.x + 2):
             for y in range(location.y - 1, location.y + 2):
+                if x == location.x and y == location.y:
+                    continue
                 if self.map.contains(Location(x, y)) and self.map.get_tile(Location(x, y)).type == Tile.FREE:
                     squares.append(self.map.get_tile(Location(x, y)))
         return squares

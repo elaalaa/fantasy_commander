@@ -79,10 +79,10 @@ class Game():
         else:
             self.currentplayer = self.player1
             self.print_msg("\nPlayer1, your turn")
-        '''if self.currentplayer.type == Player.AI: # ai plays turn, not finished
+        if self.currentplayer.type == Player.AI: # ai plays turn, not finished
             self.currentplayer.ai_turn()
             self.gamestate = Game.MOVESELECT
-            self.change_players()'''
+            self.change_players()
     
     def on_click(self, location):
         self.statemethods[self.gamestate](location)
