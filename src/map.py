@@ -97,3 +97,21 @@ class Map():
     def get_creatures(self): #maybe make player specific?
         
         return self.creatures[:]
+    
+    def reduce_fire_counter(self):
+        for y in range(self.get_height()):
+                for x in range(self.get_width()):
+                    if self.tiles[x][y].on_fire > 0:
+                        self.tiles[x][y].on_fire -= 1
+                        creature = self.tiles[x][y].get_creature()
+                        if creature != None:
+                            creature.take_damage(5)
+                        if self.tiles[x][y].on_fire == 0:
+                            self.tiles[x][y].type = Tile.FREE
+    
+    def set_console(self, console):
+        for creature in self.creatures:
+            creature.print_msg = console
+    
+    
+        

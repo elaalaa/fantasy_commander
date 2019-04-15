@@ -47,11 +47,13 @@ class Creature():
         return self.type
     
     def take_damage(self, amount):
+        self.print_msg("{} took {} damage!".format(self.name, amount))
         if self.hp > amount:
             self.hp -= amount
         else:
             self.hp = 0
             self.destroy()
+            self.print_msg("{} is dead!".format(self.name))
 
 
     def get_map(self):
@@ -160,9 +162,10 @@ class Mage(Creature):
         return squares
     
     def attack(self, location):
-        creature = self.map.get_tile(location).get_creature()
-        if creature != None:
-            creature.take_damage(10)
+        for x in range(location.get_x() - 1, location.get_x() + 2):
+            for y in range(location.get_y() - 1, location.get_y() + 2):
+                if self.map.get_tile(Location(x, y)).type != Tile.ROCK:
+                    self.map.get_tile(Location(x, y)).set_on_fire()
     
 class Ninja(Creature):
     

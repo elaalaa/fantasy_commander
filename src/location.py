@@ -3,8 +3,8 @@ class Location():
     
     def __init__(self, x, y):
         
-        self.x = x    # fixed value
-        self.y = y    # fixed value
+        self.x = x    # int
+        self.y = y    # int
 
 
     def get_x(self):

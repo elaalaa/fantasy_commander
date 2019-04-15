@@ -9,18 +9,20 @@ class Tile():
         self.creature = None     # most-recent holder (None if no robot in square)
         self.type = tile_type  # flag (one-way currently, since walls can not be removed)
         self.location = location
+        self.on_fire = 0
 
 
     def set_type(self, type):
         self.type = type
         
     def get_creature(self):
-        
         return self.creature
+    
+    def set_on_fire(self):
+        self.on_fire = 3 #number of turns left on fire
 
 
     def get_type(self):
-        
         return self.type
 
 

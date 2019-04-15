@@ -73,6 +73,7 @@ class Game():
             
     def change_players(self):
         self.turn += 1
+        self.map.reduce_fire_counter()
         if self.currentplayer == self.player1:
             self.currentplayer = self.player2
             self.print_msg("\nPlayer2, your turn")
@@ -187,6 +188,7 @@ def main():
     gui.scene.click_handler = game.on_click
     game.highlight = gui.highlight_squares
     game.unhighlight = gui.remove_highlighted
+    test_map.set_console(gui.print_message)
     
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())

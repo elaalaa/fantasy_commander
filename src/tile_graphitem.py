@@ -27,6 +27,9 @@ class Tile_graphitem(QGraphicsPixmapItem):
             self.setPixmap(QPixmap('graphics/rock_tile.png').scaled(self.tile_size, self.tile_size))
             self.setOffset(self.x * self.tile_size, self.y * self.tile_size)
             
+    def set_on_fire(self):
+        self.setPixmap(QPixmap('graphics/fire.png').scaled(self.tile_size, self.tile_size))
+            
 
         
         

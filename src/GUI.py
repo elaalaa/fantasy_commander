@@ -23,12 +23,13 @@ class Gamewindow(QtWidgets.QMainWindow):
     def __init__(self, map, tile_size):
         super().__init__()
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
-        self.vertical= QtWidgets.QVBoxLayout() # Horizontal main layout
+        self.vertical= QtWidgets.QVBoxLayout() # vertical main layout
         self.centralWidget().setLayout(self.vertical)
         self.map = map
         self.tile_size = tile_size
         self.gameobjects = []
         self.highlighted = []
+        self.tile_graphitems = []
         self.init_window()
         self.init_textconsole()
         #self.init_buttons()
@@ -55,6 +56,13 @@ class Gamewindow(QtWidgets.QMainWindow):
                 tile = self.map.get_tile(Location(x, y))
                 item = Tile_graphitem(tile, self.tile_size, x, y)
                 self.scene.addItem(item)
+                self.tile_graphitems.append(item)
+                
+    def update_map(self):
+        for item in self.tile_graphitems:
+            item.set_sprite()
+            if item.tile.on_fire > 0:
+                item.set_on_fire()
                 
     
     def highlight_squares(self, squares):
@@ -105,6 +113,7 @@ class Gamewindow(QtWidgets.QMainWindow):
                 self.scene.removeItem(item)
             else:
                 item.updateAll()
+        self.update_map()
 
     def init_window(self):
         '''
