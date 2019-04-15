@@ -75,6 +75,7 @@ class Creature():
     def destroy(self):
         
         self.destroyed = True
+        self.map.get_tile(self.location).remove_creature()
 
 
 
@@ -164,7 +165,7 @@ class Mage(Creature):
     def attack(self, location):
         for x in range(location.get_x() - 1, location.get_x() + 2):
             for y in range(location.get_y() - 1, location.get_y() + 2):
-                if self.map.get_tile(Location(x, y)).type != Tile.ROCK:
+                if self.map.contains(Location(x,y)) and self.map.get_tile(Location(x, y)).type != Tile.ROCK:
                     self.map.get_tile(Location(x, y)).set_on_fire()
     
 class Ninja(Creature):
