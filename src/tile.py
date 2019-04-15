@@ -19,7 +19,7 @@ class Tile():
         return self.creature
     
     def set_on_fire(self):
-        self.on_fire = 3 #number of turns left on fire
+        self.on_fire = 4 #number of turns left on fire
 
 
     def get_type(self):

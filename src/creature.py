@@ -76,6 +76,8 @@ class Creature():
         
         self.destroyed = True
         self.map.get_tile(self.location).remove_creature()
+        self.map.creatures.remove(self)
+        self.player.team.remove(self)
 
 
 
