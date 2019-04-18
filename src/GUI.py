@@ -24,6 +24,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         super().__init__()
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
         self.vertical= QtWidgets.QVBoxLayout() # vertical main layout
+        self.horizontal = QtWidgets.QHBoxLayout()
         self.centralWidget().setLayout(self.vertical)
         self.map = map
         self.tile_size = tile_size
@@ -32,7 +33,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.tile_graphitems = []
         self.init_window()
         self.init_textconsole()
-        #self.init_buttons()
+        self.init_buttons()
 
         self.add_tile_graphitems()
         self.add_creature_graphitems()
@@ -46,7 +47,7 @@ class Gamewindow(QtWidgets.QMainWindow):
 
     def init_textconsole(self):
         self.console = QTextBrowser()
-        self.console.setText("Game start!")
+        self.console.setText("Welcome to Fantasy Commander 1.0!\nPlayer 1: Red        Player 2: Blue\n")
         self.vertical.addWidget(self.console)
 
     def add_tile_graphitems(self):
@@ -99,10 +100,10 @@ class Gamewindow(QtWidgets.QMainWindow):
         Adds buttons to the window and connects them to their respective functions
         See: QPushButton at http://doc.qt.io/qt-5/qpushbutton.html
         '''
-        pass
-        '''self.next_turn_btn = QtWidgets.QPushButton("Next full turn")
-        self.next_turn_btn.clicked.connect(self.world.next_full_turn)
-        self.horizontal.addWidget(self.next_turn_btn)'''
+        #pass
+        self.skip_btn = QtWidgets.QPushButton("Skip")
+        self.vertical.addWidget(self.skip_btn)
+        self.skip_btn.move(850, 4*50)
         
 
     def update_objects(self): # update alive characters and remove dead

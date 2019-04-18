@@ -29,7 +29,17 @@ class Game():
         self.print_msg("Player1, your turn")
         self.print_msg("Select creature to move")
         
-
+    def change_state(self):
+        if self.gamestate == 0 or self.gamestate == 1:
+            self.gamestate = 2
+            self.unhighlight()
+            self.print_msg("Select creature to attack with")
+        elif self.gamestate == 2 or self.gamestate == 3:
+            self.gamestate = 0
+            self.unhighlight()
+            self.change_players()
+            self.print_msg("Select creature to move")
+        
     
     def move_select(self, location):
         creature = self.map.get_creature(location)
@@ -189,6 +199,7 @@ def main():
     game.highlight = gui.highlight_squares
     game.unhighlight = gui.remove_highlighted
     test_map.set_console(gui.print_message)
+    gui.skip_btn.clicked.connect(game.change_state)
     
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())

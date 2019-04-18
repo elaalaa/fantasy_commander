@@ -106,8 +106,8 @@ class Map():
                         creature = self.tiles[x][y].get_creature()
                         if creature != None:
                             creature.take_damage(5)
-                        if self.tiles[x][y].on_fire == 0:
-                            self.tiles[x][y].type = Tile.FREE
+                        '''if self.tiles[x][y].on_fire == 0:
+                            self.tiles[x][y].type = Tile.FREE'''
     
     def set_console(self, console):
         for creature in self.creatures:

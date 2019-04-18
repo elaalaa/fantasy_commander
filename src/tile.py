@@ -20,6 +20,7 @@ class Tile():
     
     def set_on_fire(self):
         self.on_fire = 4 #number of turns left on fire
+        self.type = Tile.FREE
 
 
     def get_type(self):
