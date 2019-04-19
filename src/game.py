@@ -16,18 +16,68 @@ class Game():
     ATTACKACTION = 3
     
     
-    def __init__(self, player1, player2, map, print_msg):
-        self.player1 = player1
-        self.player2 = player2
+    def __init__(self, filename, map, print_msg):
+        '''self.player1 = player1
+        self.player2 = player2'''
         self.map = map
+        self.read_from_file(filename)
         self.print_msg = print_msg
         self.squares = []
         self.turn = 0
         self.gamestate = 0
-        self.currentplayer = player1
+        self.currentplayer = self.player1
         self.statemethods = [self.move_select, self.move_action, self.attack_select, self.attack_action]
         self.print_msg("Player1, your turn")
         self.print_msg("Select creature to move")
+        
+    def read_from_file(self, filename):
+        typelist = {'TANK':Tank, 'NINJA':Ninja, 'MAGE':Mage, 'SNIPER':Sniper}
+        with open(filename, 'r') as file:
+            line = file.readline()
+            while line.startswith("Player1") == False:
+                line = file.readline()
+            read = line.split()[1].upper()
+            if read == "HUMAN":
+                type = Player.HUMAN
+            else:
+                type = Player.AI
+            self.player1 = Player(1, type)
+            while line.startswith("Player2") == False:
+                line = file.readline()
+                if not line.strip() or len(line.split()) < 4:
+                    continue
+                creature = line.split()[0].upper()
+                name = line.split()[1]
+                location = Location(int(line.split()[2]), int(line.split()[3]))
+                new_creature = typelist[creature](name, self.player1, location)
+                self.player1.add_teammember(new_creature)
+                self.map.add_creature(new_creature, location)
+            read = line.split()[1].upper()
+            if read == "HUMAN":
+                type = Player.HUMAN
+            else:
+                type = Player.AI
+            self.player2 = Player(2, type)
+            for line in file:
+                if not line.strip() or len(line.split()) < 4:
+                    line = file.readline()
+                creature = line.split()[0].upper()
+                name = line.split()[1]
+                location = Location(int(line.split()[2]), int(line.split()[3]))
+                new_creature = typelist[creature](name, self.player2, location)
+                self.player1.add_teammember(new_creature)
+                self.map.add_creature(new_creature, location)
+            
+            
+    def undo_select(self):
+        if self.gamestate == 1:
+            self.gamestate = 0
+            self.unhighlight()
+            self.print_msg("Select creature to move")
+        elif self.gamestate == 3:
+            self.gamestate = 2
+            self.unhighlight()
+            self.print_msg("Select creature to attack with")
         
     def change_state(self):
         if self.gamestate == 0 or self.gamestate == 1:
@@ -101,105 +151,22 @@ class Game():
 
 
 def main():
-    player1 = Player(1, Player.HUMAN)
-    player2 = Player(2, Player.HUMAN)
     
     test_map = Map('maps/map2.txt')
     
-
-    tank_location = Location(0, 0)
-    tank_body = Tank('Tank1', player1, tank_location)
-    test_map.add_creature(tank_body, tank_location)
-    player1.add_teammember(tank_body)
-
-    mage_location = Location(0, 1)
-    mage_body = Mage('Mage1', player1, mage_location)
-    test_map.add_creature(mage_body, mage_location)
-    player1.add_teammember(mage_body)
-
-    ninja_location = Location(0, 2)
-    ninja_body = Ninja('Ninja1', player1, ninja_location)
-    test_map.add_creature(ninja_body, ninja_location)
-    player1.add_teammember(ninja_body)
-
-    sniper_location = Location(0, 3)
-    sniper_body = Sniper('Sniper1', player1, sniper_location)
-    test_map.add_creature(sniper_body, sniper_location)
-    player1.add_teammember(sniper_body)
-    
-    tank2_location = Location(0, 4)
-    tank2_body = Tank('Tank2', player1, tank2_location)
-    test_map.add_creature(tank2_body, tank2_location)
-    player1.add_teammember(tank2_body)
-
-    mage2_location = Location(0, 5)
-    mage2_body = Mage('Mage2', player1, mage2_location)
-    test_map.add_creature(mage2_body, mage2_location)
-    player1.add_teammember(mage2_body)
-
-    ninja2_location = Location(0, 6)
-    ninja2_body = Ninja('Ninja2', player1, ninja2_location)
-    test_map.add_creature(ninja2_body, ninja2_location)
-    player1.add_teammember(ninja2_body)
-
-    sniper2_location = Location(0, 7)
-    sniper2_body = Sniper('Sniper2', player1, sniper2_location)
-    test_map.add_creature(sniper2_body, sniper2_location)
-    player1.add_teammember(sniper2_body)
-    
-    p2_tank_location = Location(13, 0)
-    p2_tank_body = Tank('Tank1', player2, p2_tank_location)
-    test_map.add_creature(p2_tank_body, p2_tank_location)
-    player2.add_teammember(p2_tank_body)
-
-    p2_mage_location = Location(13, 1)
-    p2_mage_body = Mage('Mage1', player2, p2_mage_location)
-    test_map.add_creature(p2_mage_body, p2_mage_location)
-    player2.add_teammember(p2_mage_body)
-
-    p2_ninja_location = Location(13, 2)
-    p2_ninja_body = Ninja('Ninja1', player2, p2_ninja_location)
-    test_map.add_creature(p2_ninja_body, p2_ninja_location)
-    player2.add_teammember(p2_ninja_body)
-
-    p2_sniper_location = Location(13, 3)
-    p2_sniper_body = Sniper('Sniper1', player2, p2_sniper_location)
-    test_map.add_creature(p2_sniper_body, p2_sniper_location)
-    player2.add_teammember(p2_sniper_body)
-    
-    p2_tank2_location = Location(13, 4)
-    p2_tank2_body = Tank('Tank2', player2, p2_tank2_location)
-    test_map.add_creature(p2_tank2_body, p2_tank2_location)
-    player2.add_teammember(p2_tank2_body)
-
-    p2_mage2_location = Location(13, 5)
-    p2_mage2_body = Mage('Mage2', player2, p2_mage2_location)
-    test_map.add_creature(p2_mage2_body, p2_mage2_location)
-    player2.add_teammember(p2_mage2_body)
-
-    p2_ninja2_location = Location(13, 6)
-    p2_ninja2_body = Ninja('Ninja2', player2, p2_ninja2_location)
-    test_map.add_creature(p2_ninja2_body, p2_ninja2_location)
-    player2.add_teammember(p2_ninja2_body)
-
-    p2_sniper2_location = Location(13, 7)
-    p2_sniper2_body = Sniper('Sniper2', player2, p2_sniper2_location)
-    test_map.add_creature(p2_sniper2_body, p2_sniper2_location)
-    player2.add_teammember(p2_sniper2_body)
-    
-    
-
     # Every Qt application must have one instance of QApplication.
     global app # Use global to prevent crashing on exit
     app = QApplication(sys.argv)
     
     gui = Gamewindow(test_map, 50)
-    game = Game(player1, player2, test_map, gui.print_message)
+    game = Game("settings.txt" ,test_map, gui.print_message)
+    gui.add_creature_graphitems()
     gui.scene.click_handler = game.on_click
     game.highlight = gui.highlight_squares
     game.unhighlight = gui.remove_highlighted
     test_map.set_console(gui.print_message)
     gui.skip_btn.clicked.connect(game.change_state)
+    gui.undo_btn.clicked.connect(game.undo_select)
     
     # Start the Qt event loop. (i.e. make it possible to interact with the gui)
     sys.exit(app.exec_())

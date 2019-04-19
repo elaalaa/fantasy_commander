@@ -96,14 +96,13 @@ class Gamewindow(QtWidgets.QMainWindow):
 
 
     def init_buttons(self):
-        '''
-        Adds buttons to the window and connects them to their respective functions
-        See: QPushButton at http://doc.qt.io/qt-5/qpushbutton.html
-        '''
-        #pass
+        
         self.skip_btn = QtWidgets.QPushButton("Skip")
         self.vertical.addWidget(self.skip_btn)
-        self.skip_btn.move(850, 4*50)
+        #self.skip_btn.move(850, 4*50)
+        self.undo_btn = QtWidgets.QPushButton("Undo select")
+        self.vertical.addLayout(self.horizontal)
+        self.horizontal.addWidget(self.undo_btn) # tried to make the buttons noxt to each other but didn't succeed :(
         
 
     def update_objects(self): # update alive characters and remove dead

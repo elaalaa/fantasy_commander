@@ -1,0 +1,19 @@
+Player1:  Human
+Tank Gimli 0 0
+Mage Gandalf 0 1
+Ninja Frodo 0 2
+Sniper Legolas 0 3
+Tank Boromir 0 4
+Mage Saruman 0 5
+Ninja Merri 0 6
+Sniper Faramir  0 7
+
+Player2:   Human
+Tank Ganondorf  13 0
+Mage Zelda  13 1
+Ninja Sheik  13 2
+Sniper Link  13 3
+Tank Darunia  13 4
+Mage Midna  13 5
+Ninja Impa  13 6
+Sniper Revali  13 7
