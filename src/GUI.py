@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.Qt import QGraphicsRectItem, QGraphicsPixmapItem, QPixmap, QTextBrowser
+from PyQt5.Qt import QGraphicsRectItem, QGraphicsPixmapItem, QPixmap, QTextBrowser,\
+    QMessageBox
 from PyQt5.QtGui import QColor, QBrush
 
 from location import Location
@@ -36,7 +37,7 @@ class Gamewindow(QtWidgets.QMainWindow):
         self.init_buttons()
 
         self.add_tile_graphitems()
-        self.add_creature_graphitems()
+        #self.add_creature_graphitems()
         self.update_objects()
 
         # Set a timer to call the update function periodically
@@ -136,3 +137,12 @@ class Gamewindow(QtWidgets.QMainWindow):
     def print_message(self, msg):
         self.console.append(msg)
         
+class Win_message(QMessageBox):
+    def __init__(self, player, game):
+        super().__init__()
+        self.game = game
+        self.buttonReply = self.question(self, '{} you won!'.format(player), "Do you want to play again?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if self.buttonReply == QMessageBox.Yes:
+            self.game.end_handling(1)
+        else:
+            self.game.end_handling(0)
